@@ -1,8 +1,25 @@
-trigger: none 
-pool: Default
+trigger: none
 
-steps: 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: 'Write-Host "Hello World"'
+pool: pool_of_agents
+
+jobs:
+  - job: install
+    displayName: node install
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSource: 'spec'
+        versionSpec: '16.x'
+  
+  - job: Build
+    displayName: build
+    steps:
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: 'npm install'
+
+    - task: PowerShell@2
+      inputs:
+        targetType: 'inline'
+        script: 'npm run build'
