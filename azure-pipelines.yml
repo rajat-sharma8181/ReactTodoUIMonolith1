@@ -26,7 +26,7 @@ jobs:
         customCommand: 'npm run build'
 
     - task: PublishBuildArtifacts@1
-      displayName: publish artifact
+      displayName: publish build artifact
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/build'
         ArtifactName: 'artifactvs1'
