@@ -3,7 +3,7 @@ trigger: none
 pool: pool_of_agents
 
 jobs:
-  - job: 
+  - job: Build
     displayName: Build
     steps:
     - task: NodeTool@0
@@ -35,6 +35,8 @@ jobs:
         publishLocation: 'Container'
 
   - job: DeployJob
+    dependsOn: Build
+    condition: succeeded()
     displayName: Deploy on Nginx VM
     steps:
       - download: current
