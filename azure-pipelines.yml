@@ -3,8 +3,8 @@ trigger: none
 pool: pool_of_agents
 
 jobs:
-  - job: install
-    displayName: node install
+  - job: 
+    displayName: Build
     steps:
     - task: NodeTool@0
       displayName: node install
@@ -12,18 +12,15 @@ jobs:
         versionSource: 'spec'
         versionSpec: '16.x'
   
-    - task: Npm@1
-      displayName: npm install
+    - task: PowerShell@2
       inputs:
-        command: 'install'
-        workingDir: '$(System.DefaultWorkingDirectory)'
+        targetType: 'inline'
+        script: 'npm install'
 
-    - task: Npm@1
-      displayName: npm run build
+    - task: PowerShell@2
       inputs:
-        command: 'custom'
-        workingDir: '$(System.DefaultWorkingDirectory)'
-        customCommand: 'run build'
+        targetType: 'inline'
+        script: 'npm run build'
 
     - task: PublishBuildArtifacts@1
       displayName: publish build artifact
