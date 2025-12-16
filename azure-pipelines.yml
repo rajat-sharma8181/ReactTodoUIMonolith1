@@ -2,8 +2,6 @@ trigger: none
 
 pool: pool_of_agents
 
-
-
 jobs:
   - job: 
     displayName: Build
@@ -14,15 +12,24 @@ jobs:
         versionSource: 'spec'
         versionSpec: '16.x'
   
-    - task: PowerShell@2
-      inputs:
-        targetType: 'inline'
-        script: 'npm install'
+    # - task: PowerShell@2
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: 'npm install'
 
-    - task: PowerShell@2
+    # - task: PowerShell@2
+    #   inputs:
+    #     targetType: 'inline'
+    #     script: 'npm run build'
+
+    - task: Npm@1
       inputs:
-        targetType: 'inline'
-        script: 'npm run build'
+        command: 'install'
+
+    - task: Npm@1
+      inputs:
+        command: 'custom'
+        customCommand: 'run build'
 
     - task: CopyFiles@2
       inputs:
