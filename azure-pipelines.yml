@@ -2,6 +2,8 @@ trigger: none
 
 pool: pool_of_agents
 
+
+
 jobs:
   - job: 
     displayName: Build
@@ -21,6 +23,12 @@ jobs:
       inputs:
         targetType: 'inline'
         script: 'npm run build'
+
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)'
+        Contents: '**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/build'
 
     - task: PublishBuildArtifacts@1
       displayName: publish build artifact
