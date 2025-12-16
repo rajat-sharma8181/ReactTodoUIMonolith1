@@ -40,7 +40,7 @@ jobs:
     displayName: Deploy on Nginx VM
     steps:
       - download: current
-        artifact: drop
+        artifact: artifactvs1
 
       - task: CopyFilesOverSSH@0
         inputs:
