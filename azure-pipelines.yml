@@ -27,10 +27,35 @@ jobs:
           mkdir $(Build.ArtifactStagingDirectory)\build
           Copy-Item -Recurse -Force build\* $(Build.ArtifactStagingDirectory)\build
 
-
     - task: PublishBuildArtifacts@1
       displayName: publish build artifact
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)/build'
         ArtifactName: 'artifactvs1'
         publishLocation: 'Container'
+
+  - job: DeployJob
+    displayName: Deploy on Nginx VM
+    steps:
+      - download: current
+        artifact: drop
+
+      - task: CopyFilesOverSSH@0
+        inputs:
+          sshEndpoint: 'vm_service'
+          sourceFolder: '$(Pipeline.Workspace)/artifactvs1'
+          contents: '/*.zip'
+          targetFolder: '/var/www/myapp'
+          readyTimeout: '20000'
+
+      - task: SSH@0
+        inputs:
+          sshEndpoint: 'vm_service'
+          runOptions: 'inline'
+          inline: |
+            cd /var/www/myapp
+            unzip -o webapp.zip
+            sudo systemctl reload nginx
+          readyTimeout: '20000'
+
+      
