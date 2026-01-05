@@ -29,7 +29,7 @@ stages:
           displayName: Npm Run Build
           inputs:
             command: 'custom'
-            workingDir: '$(System.DefaultWorkingDirectory)/build'
+            workingDir: '$(System.DefaultWorkingDirectory)'
             customCommand: 'run build'
 
         - task: PublishBuildArtifacts@1
