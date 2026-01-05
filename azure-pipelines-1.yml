@@ -34,6 +34,7 @@ stages:
 
         - task: PublishBuildArtifacts@1
           inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)/build/'
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
             ArtifactName: 'BuildArtifact'
-            publishLocation: 'Container'
+            publishLocation: 'FilePath'
+            TargetPath: '$(Build.ArtifactStagingDirectory)/build.'
