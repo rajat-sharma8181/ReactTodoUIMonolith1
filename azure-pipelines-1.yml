@@ -31,6 +31,7 @@ stages:
           inputs:
             versionSource: 'spec'
             versionSpec: '16.x'
+            checkLatest: true
 
         - task: Npm@1
           displayName: Npm Install
