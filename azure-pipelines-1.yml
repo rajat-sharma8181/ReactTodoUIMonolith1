@@ -7,47 +7,46 @@ trigger:
 pool: pool_of_agents
 
 stages: 
-  - stage: CodeQualityAndCheck
-    displayName: Quality and Linting
-    jobs:
-      - job: LintingCheck
-        displayName: multi language linting check
-        steps:
-        - task: PowerShell@2
-          inputs:
-            targetType: 'inline'
-            script: |
-              Invoke-WebRequest -Uri "https://github.com/biomejs/biome/releases/download/%40biomejs%2Fbiome%402.3.8/biome-win32-x64.exe" -OutFile "$(Agent.ToolsDirectory)/biome.exe"
-              $(Agent.ToolsDirectory)/biome.exe lint $(System.DefaultWorkingDirectory)/src/
-
-  # - stage: BuildandPackage
-  #   displayName: Build & Artifact Package
+  # - stage: CodeQualityAndCheck
+  #   displayName: Quality and Linting
   #   jobs:
-  #     - job: ApplicationBuild
-  #       displayName: Application Build
+  #     - job: LintingCheck
+  #       displayName: multi language linting check
   #       steps:
-  #       - task: NodeTool@0
-  #         displayName: Node Install
+  #       - task: PowerShell@2
   #         inputs:
-  #           versionSource: 'spec'
-  #           versionSpec: '16.x'
+  #           targetType: 'inline'
+  #           script: |
+  #             Invoke-WebRequest -Uri "https://github.com/biomejs/biome/releases/download/%40biomejs%2Fbiome%402.3.8/biome-win32-x64.exe" -OutFile "$(Agent.ToolsDirectory)/biome.exe"
+  #             $(Agent.ToolsDirectory)/biome.exe lint $(System.DefaultWorkingDirectory)/src/
 
-  #       - task: Npm@1
-  #         displayName: Npm Install
-  #         inputs:
-  #           command: 'install'
-  #           workingDir: '$(System.DefaultWorkingDirectory)'
+  - stage: BuildandPackage
+    displayName: Build & Artifact Package
+    jobs:
+      - job: ApplicationBuild
+        displayName: Application Build
+        steps:
+        - task: NodeTool@0
+          displayName: Node Install
+          inputs:
+            versionSource: 'spec'
+            versionSpec: '16.x'
 
-  #       - task: Npm@1
-  #         displayName: Npm Run Build
-  #         inputs:
-  #           command: 'custom'
-  #           workingDir: '$(System.DefaultWorkingDirectory)'
-  #           customCommand: 'run build'
+        - task: Npm@1
+          displayName: Npm Install
+          inputs:
+            command: 'install'
+            workingDir: '$(System.DefaultWorkingDirectory)'
 
-  #       - task: PublishBuildArtifacts@1
-  #         inputs:
-  #           PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-  #           ArtifactName: 'BuildArtifact'
-  #           publishLocation: 'FilePath'
-  #           TargetPath: '$(Build.ArtifactStagingDirectory)/build.'
+        - task: Npm@1
+          displayName: Npm Run Build  # agent folder me build banta hai 
+          inputs:
+            command: 'custom'
+            workingDir: '$(System.DefaultWorkingDirectory)'
+            customCommand: 'run build'
+
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: 'build'
+            ArtifactName: 'BuildArtifact'
+            publishLocation: 'Container'
