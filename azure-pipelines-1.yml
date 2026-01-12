@@ -39,3 +39,17 @@ stages:
             artifact: 'todo_artifact'
             publishLocation: 'pipeline'
 
+# CD Pipeline
+
+  - stage: Deployment
+    displayName: Deployment on VM
+    jobs:
+      - job: Deploymentstage
+        displayName: DeDeployment job
+        steps:
+        - task: DownloadPipelineArtifact@2
+          displayName: downloading artifact
+          inputs:
+            buildType: 'current'
+            artifactName: 'todo_artifact'
+            targetPath: '$(Pipeline.Workspace)/todo_artifact'
