@@ -66,7 +66,7 @@ stages:
             sshEndpoint: 'app_connection'
             runOptions: 'inline'
             inline: |
-              sudo apt get update -y
-              sudo apt get install nginx -y
+              sudo apt-get update -y
+              sudo apt-get install nginx -y
               sudo cp -r /home/adminuser1/* /var/www/html/
             readyTimeout: '20000'
