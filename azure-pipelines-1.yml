@@ -58,5 +58,5 @@ stages:
             sshEndpoint: 'app_connection'
             sourceFolder: '$(Pipeline.Workspace)/todo_artifact'
             contents: '**'
-            targetFolder: '/home'
+            targetFolder: '/home/adminuser1'
             readyTimeout: '20000'
