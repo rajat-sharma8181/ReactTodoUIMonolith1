@@ -53,6 +53,7 @@ stages:
             buildType: 'current'
             artifactName: 'todo_artifact'
             targetPath: '$(Pipeline.Workspace)/todo_artifact'
+            
         - task: CopyFilesOverSSH@0
           inputs:
             sshEndpoint: 'app_connection'
