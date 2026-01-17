@@ -34,6 +34,7 @@ stages:
             customCommand: 'run build'
 
         - task: PublishPipelineArtifact@1
+          displayName: publish artifact
           inputs:
             targetPath: '$(System.DefaultWorkingDirectory)/build'
             artifact: 'todo_artifact'
@@ -55,14 +56,16 @@ stages:
             targetPath: '$(Pipeline.Workspace)/todo_artifact'
             
         - task: CopyFilesOverSSH@0
+          displayName: Copy artifact to VM
           inputs:
             sshEndpoint: 'app_connection'
             sourceFolder: '$(Pipeline.Workspace)/todo_artifact'
             contents: '**'
-            targetFolder: '/home/adminuser1'
+            targetFolder: '/home/adminuser1/'
             readyTimeout: '20000'
 
         - task: SSH@0
+          displayName: Deploy to VM
           inputs:
             sshEndpoint: 'app_connection'
             runOptions: 'inline'
